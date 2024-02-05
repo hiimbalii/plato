@@ -1,0 +1,21 @@
+<html>
+
+<body>
+  <h1> Hello world! </h1>
+  <button> Button </button>
+  <button> Button 2 </button>
+  <button class="color">Color button</button>
+  <button> Button </button>
+  <button onclick="alert('click')"> With event1 </button>
+  <button> With event1 </button>
+  <input type="text" name="text" value="">
+
+  <script defer src="index.js">
+  </script>
+  <script>
+    document.querySelector('button').addEventListener('click', () => alert(1))
+    document.querySelector('button').addEventListener('click', () => alert(2))
+  </script>
+</body>
+
+</html>
