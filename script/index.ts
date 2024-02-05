@@ -40,14 +40,34 @@ function getUniqueSelector(element: HTMLElement | null): string | null {
  *
  */
 
-let interactions = [
+let interactions: Interaction[] = [
   {
     eventName: "DOMContentLoaded",
-    target: "",
-    event: null as any,
     timestamp: performance.now(),
   },
 ];
+
+type DomInteraction = {
+  eventName: keyof HTMLElementEventMap;
+  target: string;
+  event: UIEvent;
+  timestamp: number;
+};
+
+type LoadedInteraction = {
+  eventName: "DOMContentLoaded";
+  timestamp: number;
+};
+
+type HTTPInteraction = {
+  eventName: "HTTPCall";
+  req: XMLHttpRequest | RequestInfo;
+  method?: string;
+  url?: string;
+};
+type Interaction = DomInteraction | LoadedInteraction | HTTPInteraction;
+
+// function enqueueInteraction();
 
 document.addEventListener("DOMContentLoaded", () => {
   //todo: listen to all the events
@@ -58,11 +78,37 @@ document.addEventListener("DOMContentLoaded", () => {
     interactions.push({
       eventName: "click",
       target: output,
-      event: e as any,
+      event: e,
       timestamp: performance.now(),
     });
   });
 });
+
+// Interception using XMLHttpRequest
+(function () {
+  const open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function (
+    this: XMLHttpRequest,
+    method: string,
+    url: string
+  ) {
+    interactions.push({ eventName: "HTTPCall", method, url, req: this });
+    return open.apply(this, arguments as any);
+  };
+})();
+
+// Interception using fetch
+(function () {
+  const originalFetch = window.fetch;
+  window.fetch = function (
+    this: Window,
+    input: RequestInfo,
+    init?: RequestInit
+  ): Promise<Response> {
+    interactions.push({ eventName: "HTTPCall", req: input });
+    return originalFetch.apply(this, arguments as any);
+  } as typeof window.fetch;
+})();
 
 setInterval(() => {
   // Todo: send this to a server
