@@ -9,7 +9,7 @@ A framework-agnostic Shadow Testing tool for the Frontend
 Shadow Requests or Dark Launches are more typical for backend APIs, and are similar to [canary releases](https://en.wikipedia.org/wiki/Feature_toggle#Canary_release),
 except here the request gets duplicated and ran against the currently active and candidate APIs, then they get compared against each other to see if the new version is stable.
 
-With Plato, the user's interactions with the website get recorded and replayed by an E2E testing framework (currently only cypress. to be extended.) against the candidate, we then take snapshots of the DOM in both versions and diff them.
+With Plato, the user's interactions with the website get recorded and replayed by an E2E testing framework (currently only playwright. to be extended.) against the candidate, we then take snapshots of the DOM in both versions and diff them.
 (Well at least that's the rough idea)
 
 ## How it works?

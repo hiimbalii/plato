@@ -111,9 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 setInterval(() => {
+  if (!interactions.length) return;
   // Todo: send this to a server
-  const mockRequest = Promise.resolve(() => console.log(interactions));
+  const mockRequest = Promise.resolve(() => console.debug(interactions));
   mockRequest.then(() => {
     interactions = [];
   });
 }, 5000);
+console.log("loaded");
