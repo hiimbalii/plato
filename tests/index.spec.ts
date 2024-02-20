@@ -19,7 +19,7 @@ import { writeFileSync } from "fs";
 })();
 
 test("has title", async ({ page }) => {
-  await page.goto("http://127.0.0.1:5500/dist/index.html");
+  await page.goto("http://127.0.0.1:9000");
 
   // Expect a title "to contain" a substring.
   const button = page.locator("tag=button.color");
