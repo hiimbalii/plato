@@ -111,9 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 setInterval(() => {
+  console.log("intreactions: ", interactions);
   if (!interactions.length) return;
   // Todo: send this to a server
-  const mockRequest = Promise.resolve(() => console.debug(interactions));
+  const mockRequest = fetch("http://localhost:3000/ping", {
+    method: "POST",
+    body: JSON.stringify(interactions),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   mockRequest.then(() => {
     interactions = [];
   });
